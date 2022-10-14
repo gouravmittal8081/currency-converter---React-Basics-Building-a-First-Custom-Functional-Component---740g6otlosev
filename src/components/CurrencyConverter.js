@@ -1,18 +1,6 @@
-// import React from 'react'
-
-// export default function CurrencyConverter() {
-//     return (
-//         <div>
-            
-//         </div>
-//     )
-// }
-
-
-
 import React from "react";
 
-function CurrencyConverter(props) {
+function Converter(props) {
   // const firstData = props.data.filter((rate) => {
   //   return rate !== props.secondInput;
   // });
@@ -28,42 +16,44 @@ function CurrencyConverter(props) {
         {props.toAmount} {props.secondInput}
       </h3>
       <div>
-        
         <select value={props.firstInput} onChange={props.handleFromCurreny}>
-          {props.data.map((rate) => {
-            return (
-              <option key={rate} value={rate}>
-                {rate}
-              </option>
-            );
-          })}
+          {props.data
+            .filter((I) => I !== props.secondInput)
+            .map((rate, index) => {
+              return (
+                <option key={index} value={rate}>
+                  {rate}
+                </option>
+              );
+            })}
         </select>
         <input
           type="number"
           value={props.fromAmount}
           onChange={props.onMoneyChangeFrom}
-          min="1"
+          min="0"
         />
       </div>
       <div>
-        
         <select value={props.secondInput} onChange={props.handleToCurrency}>
-          {props.data.map((rate) => {
-            return (
-              <option key={rate} value={rate}>
-                {rate}
-              </option>
-            );
-          })}
+          {props.data
+            .filter((I) => I !== props.firstInput)
+            .map((rate, index) => {
+              return (
+                <option key={index} value={rate}>
+                  {rate}
+                </option>
+              );
+            })}
         </select>
         <input
           type="number"
           value={props.toAmount}
           onChange={props.onMoneyChangeTo}
-          min="1"
+          min="0"
         />
       </div>
     </div>
   );
 }
-export default CurrencyConverter;
+export default Converter;
