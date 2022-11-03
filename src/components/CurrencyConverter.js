@@ -1,6 +1,8 @@
+
+
 import React from "react";
 
-function Converter(props) {
+function CurrencyConverter(props) {
   // const firstData = props.data.filter((rate) => {
   //   return rate !== props.secondInput;
   // });
@@ -16,44 +18,42 @@ function Converter(props) {
         {props.toAmount} {props.secondInput}
       </h3>
       <div>
+        
         <select value={props.firstInput} onChange={props.handleFromCurreny}>
-          {props.data
-            .filter((I) => I !== props.secondInput)
-            .map((rate, index) => {
-              return (
-                <option key={index} value={rate}>
-                  {rate}
-                </option>
-              );
-            })}
+          {props.data.map((rate) => {
+            return (
+              <option key={rate} value={rate}>
+                {rate}
+              </option>
+            );
+          })}
         </select>
         <input
           type="number"
           value={props.fromAmount}
           onChange={props.onMoneyChangeFrom}
-          min="0"
+          min="1"
         />
       </div>
       <div>
+        
         <select value={props.secondInput} onChange={props.handleToCurrency}>
-          {props.data
-            .filter((I) => I !== props.firstInput)
-            .map((rate, index) => {
-              return (
-                <option key={index} value={rate}>
-                  {rate}
-                </option>
-              );
-            })}
+          {props.data.map((rate) => {
+            return (
+              <option key={rate} value={rate}>
+                {rate}
+              </option>
+            );
+          })}
         </select>
         <input
           type="number"
           value={props.toAmount}
           onChange={props.onMoneyChangeTo}
-          min="0"
+          min="1"
         />
       </div>
     </div>
   );
 }
-export default Converter;
+export default CurrencyConverter;
