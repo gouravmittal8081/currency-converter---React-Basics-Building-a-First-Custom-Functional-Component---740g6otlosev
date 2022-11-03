@@ -1,12 +1,12 @@
 import "./styles.css";
-import Converter from "./CurrencyConverter";
-import React, { useEffect, useRef, useState } from "react";
+import CurrencyConverter from "./CurrencyConverter";
+import { useEffect, useRef, useState } from "react";
 
 export default function App() {
-  const [firstInput, setFirstInput] = useState("USD");
-  const [secondInput, setSecondInput] = useState("INR");
+  const [firstInput, setFirstInput] = useState();
+  const [secondInput, setSecondInput] = useState();
   const [data, setData] = useState([]);
-  const [money, setMoney] = useState(0);
+  const [money, setMoney] = useState(1);
   const [moneyFrom, setMoneyFrom] = useState(true);
   const [exchangeRate, setExchangeRate] = useState();
   function useFirstPrevious(value) {
@@ -30,12 +30,11 @@ export default function App() {
     )
       .then((response) => response.json())
       .then((responsedata) => {
-        // const firstCurr = Object.keys(responsedata.conversion_rates)[145];
+        const firstCurr = Object.keys(responsedata.conversion_rates)[145];
         setData([...Object.keys(responsedata.conversion_rates)]);
-        console.log([...Object.keys(responsedata.conversion_rates)]);
-        // setFirstInput(responsedata.base_code);
-        // setSecondInput(Object.keys(responsedata.conversion_rates)[145]);
-        // setExchangeRate(responsedata.conversion_rates[firstCurr]);
+        setFirstInput(responsedata.base_code);
+        setSecondInput(Object.keys(responsedata.conversion_rates)[145]);
+        setExchangeRate(responsedata.conversion_rates[firstCurr]);
       });
   }, []);
   const first = useFirstPrevious(firstInput);
@@ -45,10 +44,10 @@ export default function App() {
     //   setFirstInput(second);
     //   setSecondInput(first);
     // }
-    // if (firstInput === secondInput) {
-    //   setFirstInput(second);
-    //   setSecondInput(first);
-    // }
+    if (firstInput === secondInput) {
+      setFirstInput(second);
+      setSecondInput(first);
+    }
     if (firstInput != null && secondInput != null) {
       fetch(
         `https://v6.exchangerate-api.com/v6/7cc8565835b9b47e14685f57/pair/${firstInput}/${secondInput}`
@@ -95,7 +94,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Currency Converter</h1>
-      <Converter
+      <CurrencyConverter
         data={data}
         money={money}
         onMoneyChangeFrom={onMoneyChangeFrom}
@@ -110,5 +109,3 @@ export default function App() {
     </div>
   );
 }
-
-
